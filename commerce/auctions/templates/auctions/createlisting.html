@@ -1,0 +1,47 @@
+{% extends "auctions/layout.html" %}
+{% block body %}
+<style>
+    body {
+    text-align: center;
+   
+
+}
+form {
+    display: inline-block;
+   
+}
+</style>
+            <div >
+    
+                <form action="{% url 'create' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input class="form-control" autofocus type="text" name="Name" placeholder="Name of product">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" name="description" rows="4" placeholder="Description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" name="category" placeholder="Category" required>
+                            <option value="Choose a Category">Choose a Category</option>
+                            <option value="Facewash">Facewash</option>
+                            <option value="Toner">Toner</option>
+                            <option value="Serum">Serum</option>
+                            <option value="Essence">Essence</option>
+                            <option value="Moisturiser">Moisturiser</option>
+                            <option value="Sunscreen">Sunscreen</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="starting_bid" placeholder="Starting Bid">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="image_link" placeholder="Image Link (Optional)">
+                    </div>
+                    <input class="btn btn-primary" type="submit" value="Create">
+                </form>
+            </div>
+       
+        
+
+{% endblock %}

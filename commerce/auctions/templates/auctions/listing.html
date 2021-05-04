@@ -1,0 +1,38 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<div class="jumbotron text-center" style="padding: 3% 10%;">
+
+    <br>
+    <br>
+    <h1><strong>{{item.Name}}</strong></h1> <br>
+    <br>
+    <img src="{{item.image_link}}" alt="indeximage" style="height: 350px;" class="embed-responsive"> <br> <br> <br> 
+        <p class="lead" align="justify"><strong>Description : </strong> {{item.description}}</p>  
+        <p class="lead" align="justify"><strong>Category : </strong>{{item.category}}</p>
+        <p class="lead" align="justify"><strong>Current Bid Price : </strong>Rs{{item.current_bid}}</p>
+        <p class="lead" align="justify"><strong>Seller : </strong>{{item.seller}}</p>
+        <p class="lead" align="justify"><strong>Created on : </strong>{{item.time}}</p>
+        <br>
+            {% if added %}
+            <a href="{% url 'watchlist' item.id %}" class="btn btn-danger btn-lg" name="remove">Remove from Watchlist</a>
+            {% else %}
+            <a href="{% url 'watchlist' item.id %}" class="btn btn-success btn-lg" name="addto"><span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span> Add to Watchlist</a>
+        {% endif %}
+        {% if msg %}
+            {{msg}}
+        {% endif %}
+        {% if user.username != item.seller %}
+        <p class="lead" align="justify"><strong>Place your Bid : </strong></p>
+        <form action="{% url 'listing' item.id %}" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <input class="form-control" type="text" name="newbid" placeholder="Your Bid">
+            </div>
+            <p align="justify"><input class="btn btn-primary" type="submit" value="Submit"></p>
+        </form>
+    {% endif %}
+    {% if user.username == item.seller %}
+    <a href="{% url 'closebid' item.id %}" class="btn btn-info btn-lg"> Close Bid </a>
+{% endif %}
+{% endblock %}
