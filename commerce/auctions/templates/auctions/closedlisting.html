@@ -1,0 +1,39 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <br>
+    {% if message %}
+        <div class="alert alert-danger">{{ message }}</div>
+        
+    {% endif %}
+    <div class="jumbotron">
+        <div class="container text-center">
+                        <div class="panel panel-primary"">
+                            <!-- Default panel contents -->
+                            <div class="panel-heading">CLOSED LISTINGS</div>
+                            <div class="panel-body">
+                              <p>See the closed listings along with the winner and the winning bid!!!</p>
+                              {% if empty %}
+                    <h3>No Closed Listings available</h3>
+                            </div>
+                            {% else %}
+                    {% for product in products %}
+                          
+                            <!-- List group -->
+                            <ul class="list-group">
+                              <li class="list-group-item"><strong>{{product.name}}</strong></li>
+                              {% if product.winner == request.user.username %}
+                              <li class="list-group-item">CONGRATULATIONS!!! YOU WON🎊🥳 </li>
+                              {% endif %}
+                              <li class="list-group-item">Seller : {{product.owner}}</li>
+                              <li class="list-group-item">Winner : {{product.winner}}</li>
+                              <li class="list-group-item">Winning bid: {{product.winning_cost}}$ </li>
+                            </ul>
+                          </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- Jumbotron -->
+{% endblock %}

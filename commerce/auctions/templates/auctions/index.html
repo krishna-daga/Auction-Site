@@ -16,7 +16,7 @@
                     <div class="panel panel-primary">
             <div class="panel-heading"><a href="{% url 'listing' item.id %}" style="color:white">{{item.Name}}</a></div>
             <div class="panel-body"><img src="{{item.image_link}}" class="img-responsive" style="width:100%" alt="Image"></div>
-            <div class="panel-footer"><p>Rs {{item.current_bid}}</p><br><p>{{item.description}}</p> </div>
+            <div class="panel-footer"><p>$ {{item.current_bid}}</p><br><p>{{item.description}}</p> </div>
         </div>
     </div>
                 

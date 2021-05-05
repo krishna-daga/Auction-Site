@@ -1,0 +1,29 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <!-- Jumbotron -->
+    <div class="jumbotron text-center">
+        <div class="container text-center">
+            <div class="panel panel-primary"">
+                <!-- Default panel contents -->
+                <div class="panel-heading">MY WATCHLIST</div>
+                <div class="panel-body">
+                  <p>See all the products in your watchlist</p>
+                  {% if !present %}
+        <h3>No Items in watchlist</h3>
+                </div>
+                {% else %}
+        {% for product in product_list %}
+              
+                <!-- List group -->
+                <ul class="list-group">
+                  <li class="list-group-item"><strong>{{product.name}}</strong></li>
+                  <li class="list-group-item">{{product.current_bid}}</li>
+                  
+                </ul>
+              </div>
+        {% endfor %}
+    {% endif %}
+</div>
+</div>
+</div>

@@ -17,13 +17,13 @@ class Listings(models.Model):
     def __str__(self):
         return 'Listings: {}'.format(self.Name)
 class Bids(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.CharField(max_length=64)
     title = models.CharField(max_length=64)
     listingid = models.IntegerField()
     bid = models.IntegerField()
 class Comments(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    time = models.CharField(max_length=64)
+    user = models.CharField(max_length=64)
+    time = models.DateTimeField(auto_now_add=True)
     comment = models.TextField()
     listingid = models.IntegerField()
 class Watchlist(models.Model):
@@ -31,7 +31,7 @@ class Watchlist(models.Model):
     item = models.ManyToManyField(Listings)
 class Winner(models.Model):
     owner=models.CharField(max_length=64)
-    winner=models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    winner=models.CharField(max_length=64)
     productid = models.IntegerField()
     winning_cost = models.IntegerField()
     name = models.CharField(max_length=64, null=True)
