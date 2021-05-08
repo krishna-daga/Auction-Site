@@ -1,20 +1,14 @@
 {% extends "auctions/layout.html" %}
 {% block body %}
-<style>
-    body {
-    text-align: center;
-   
 
-}
-form {
-    display: inline-block;
-   
-}
-</style>
-<div class="jumbotron">
+<div class="jumbotron text-center">
     <div class="container text-center">
-            <div >
-    
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Create a Listing</h3>
+              </div>
+
+              <div class="panel-body ">
                 <form action="{% url 'create' %}" method="POST">
                     {% csrf_token %}
                     <div class="form-group">
@@ -42,6 +36,11 @@ form {
                     </div>
                     <input class="btn btn-primary" type="submit" value="Create">
                 </form>
+              </div>
+            </div>
+    
+                
+                </div>
             </div>
             </div>
             </div>

@@ -8,12 +8,8 @@
                 <!-- Default panel contents -->
                 <div class="panel-heading">MY WATCHLIST</div>
                 <div class="panel-body">
-                  <p>See all the products in your watchlist</p>
-                  {% if !present %}
-        <h3>No Items in watchlist</h3>
-                </div>
-                {% else %}
-        {% for product in product_list %}
+                  {% if there %}
+                  {% for product in product_list %}
               
                 <!-- List group -->
                 <ul class="list-group">
@@ -21,9 +17,14 @@
                   <li class="list-group-item">{{product.current_bid}}</li>
                   
                 </ul>
+                {% endfor %}
+                </div>
+                {% else %}
+                <h3>No Items in watchlist</h3>
               </div>
-        {% endfor %}
+        
     {% endif %}
 </div>
 </div>
 </div>
+{% endblock %}

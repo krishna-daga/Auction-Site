@@ -113,10 +113,10 @@ def listing(request,id):
         else:
             item.current_bid=new_bid
             item.save()
-            bidobj=Bids.objects.filter(listingid=id)
+            bobj=Bids.objects.filter(listingid=id)
             #if a bid already exists then delete
-            if bidobj:
-                bidobj.delete()
+            if bobj:
+                bobj.delete()
             #save 
             bobj=Bids()
             bobj.user=request.user
@@ -151,18 +151,16 @@ def watchlist(request,id):
 def mywatchlist(request):
     #gathering a list for the particular user
     mylist=Watchlist.objects.filter(user=request.user)
-    present:False
+    there:False
     list_products=[]
     #if there is a list
     if mylist:
-        present=True
+        there=True
         for i in mylist:
-            product=Listings.objects.get(id=i.item)
-            list_products.append(product)
-            print(list_products)
+            list_products.append(i.item)
             return render(request, "auctions/mywatchlist.html", {
         "product_list": list_products,
-        "present": present})
+        "present": there})
 
 
     
@@ -176,17 +174,17 @@ def closebid(request,id):
         message = "Deleting Bid"
         msg_type = "danger"
     else:
-        bidobj = Bids.objects.get(listingid=id)
+        bobj = Bids.objects.get(listingid=id)
         winobj.owner = request.user.username
-        winobj.winner = bidobj.user
+        winobj.winner = bobj.user
         winobj.productid = id
-        winobj.winning_cost = bidobj.bid
-        winobj.name = bidobj.title
+        winobj.winning_cost = bobj.bid
+        winobj.name = bobj.title
         winobj.save()
         message = "Bid Closed"
         msg_type = "success"
-        # removing from Bid
-        bidobj.delete()
+        # deleting from Bids
+        bobj.delete()
     # removing from watchlist
     item=Listings.objects.get(id=id)
     if Watchlist.objects.filter(item=item):

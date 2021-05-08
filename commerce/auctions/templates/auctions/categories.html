@@ -1,29 +1,20 @@
 {% extends "auctions/layout.html" %}
 {% block body %}
 <style>
-    .col-xl-7 pb-2{
-        color:#337ab7;
-    }
     .list-group-item{
-        background-color: #f1f9fb;
-  border-top: 1px solid black;
-  border-left-color: #fff;
-  border-right-color: #fff;
-  border-bottom: 1px solid black;
+        
   font-size:large;
     }
 </style>
 <br>
     <!-- Jumbotron -->
-    <div class="jumbotron text-center mx-2 mb-5">
-
-        <!-- Title -->
-        <h2 class="card-title h2">Select a category</h2>
-        <br> <br>
-        <!-- Grid row -->
-        <div class="row d-flex justify-content-center">
-            <!-- Grid column -->
-            <div class="col-xl-7 pb-2">
+    <div class="jumbotron text-center ">
+        <div class="container text-center">
+        <div class="panel panel-primary">
+            <div class="panel panel-primary"">
+                <!-- Default panel contents -->
+                <div class="panel-heading"><strong>Select A Category</strong></div>
+                <div class="panel-body">
                 <ul class="list-group">
                     <a href="{% url 'category' 'Facewash' %}"><li class="list-group-item"><strong>Facewash</strong> </li></a>
                     <a href="{% url 'category' 'Toner' %}"><li class="list-group-item"> <strong>Toner</strong></li></a>
@@ -32,10 +23,10 @@
                     <a href="{% url 'category' 'Moisturiser' %}"><li class="list-group-item"><strong>Moisturiser</strong></li></a>
                     <a href="{% url 'category' 'Sunscreen' %}"><li class="list-group-item"><strong>Sunscreen</strong></li></a>
                 </ul>
-            </div>
-            <!-- Grid column -->
+            
         </div>
-        <!-- Grid row -->
+    </div>
+    </div>
     </div>
     <!-- Jumbotron -->
             
