@@ -8,13 +8,13 @@
                 <!-- Default panel contents -->
                 <div class="panel-heading">MY WATCHLIST</div>
                 <div class="panel-body">
-                  {% if there %}
-                  {% for product in product_list %}
+                  {% if present %}
+                  {% for item in product_list %}
               
                 <!-- List group -->
                 <ul class="list-group">
-                  <li class="list-group-item"><strong>{{product.name}}</strong></li>
-                  <li class="list-group-item">{{product.current_bid}}</li>
+                  <li class="list-group-item"><strong><a href="{% url 'listing' item.id %}">{{item.Name}}</a></strong></li>
+              
                   
                 </ul>
                 {% endfor %}

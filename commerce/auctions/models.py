@@ -27,8 +27,8 @@ class Comments(models.Model):
     comment = models.TextField()
     listingid = models.IntegerField()
 class Watchlist(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    item = models.ManyToManyField(Listings)
+    user = models.CharField(max_length=64)
+    productid = models.IntegerField(null=False)
 class Winner(models.Model):
     owner=models.CharField(max_length=64)
     winner=models.CharField(max_length=64)

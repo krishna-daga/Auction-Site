@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404 ,render
 from django.urls import reverse
 from .models import  Listings,Bids,Comments,Watchlist,Winner
 from .models import User
@@ -124,43 +124,68 @@ def listing(request,id):
             bobj.bid=new_bid
             bobj.listingid=id
             bobj.save()
-            item_to_save=Listings.objects.get(id=id)
-            added = Watchlist.objects.filter(item_to_save, user=request.user)
-            return render(request,"auctions/listing.html",{"msg":"Your bid has been successfully placed" ,"item":item,"added":added,"comments":comments})
+            
+            
+            return render(request,"auctions/listing.html",{"msg":"Your bid has been successfully placed" ,"item":item,"comments":comments})
     else:
-        return render(request,"auctions/listing.html",{"item":item,"comments":comments})
+        added = Watchlist.objects.filter(
+        productid=id, user=request.user.username)
+        
+        return render(request,"auctions/listing.html",{"item":item,"comments":comments,"added":added})
+
 # add watchlist
 @login_required(login_url='/login')
 def watchlist(request,id):
-    item_to_save=Listings.objects.get(id=id)
-    obj=Watchlist.objects.filter(user=request.user,item=item_to_save)
-    comments=Comments.objects.filter(listingid=id)
-
-    #query to check if the item already exists in watchlist
-    if obj.exists():
-        obj.delete()
-        return render(request,"auctions/listing.html",{"item":item_to_save,"added":True,"comments":comments})
+    watchlist_obj = Watchlist.objects.filter(
+        productid=id, user=request.user.username)
+    comments = Comments.objects.filter(listingid=id)
+    # if product in watchlist
+    if watchlist_obj.exists():
+        # then delete from watchlist
+        watchlist_obj.delete()
+        # returning the updated content
+        item = Listings.objects.get(id=id)
+        added = Watchlist.objects.filter(
+            productid=id, user=request.user.username)
+        return render(request, "auctions/listing.html", {
+            "item": item,
+            "added": added,
+            "comments": comments
+        })
     else:
-        watchlist_obj=Watchlist(user=request.user)
+        # if it not present
+        #create new object
+        watchlist_obj = Watchlist()
+        watchlist_obj.user = request.user.username
+        watchlist_obj.productid =id
         watchlist_obj.save()
-        watchlist_obj.item.add(item_to_save)
-        
-        return render(request, "auctions/listing.html",{"item":item_to_save,"added":False,"comments":comments})
+        # returning the updated content
+        item = Listings.objects.get(id=id)
+        added = Watchlist.objects.filter(
+            productid=id, user=request.user.username)
+        return render(request, "auctions/listing.html", {
+            "item": item,
+            "added": added,
+            "comments": comments
+        })
+    
 #view for my watchlist
 @login_required(login_url='/login')
 def mywatchlist(request):
-    #gathering a list for the particular user
-    mylist=Watchlist.objects.filter(user=request.user)
-    there:False
-    list_products=[]
-    #if there is a list
-    if mylist:
-        there=True
-        for i in mylist:
-            list_products.append(i.item)
-            return render(request, "auctions/mywatchlist.html", {
-        "product_list": list_products,
-        "present": there})
+    l = Watchlist.objects.filter(user=request.user.username)
+    present = False
+    prods = []
+    if l:
+        present = True
+        for item in l:
+            product = Listings.objects.get(id=item.productid)
+            prods.append(product)
+    print(prods)
+    return render(request, "auctions/mywatchlist.html", {
+        "product_list": prods,
+        "present": present
+    })
+   
 
 
     
@@ -187,7 +212,7 @@ def closebid(request,id):
         bobj.delete()
     # removing from watchlist
     item=Listings.objects.get(id=id)
-    if Watchlist.objects.filter(item=item):
+    if Watchlist.objects.filter(productid=item.id):
         watchobj = Watchlist.objects.filter(item=item)
         watchobj.delete()
     # removing from Comment
@@ -244,7 +269,13 @@ def addcomment(request,id):
     new_comment.save()
     item=Listings.objects.get(id=id)
     comments=Comments.objects.filter(listingid=id)
-    return render(request,"auctions/listing.html",{"item":item,"comments":comments})
+
+    if Watchlist.objects.filter(user=request.user, item=id).exists():
+
+        return render(request,"auctions/listing.html",{"item":item,"comments":comments,"added":True})
+    else:
+        return render(request,"auctions/listing.html",{"item":item,"comments":comments,"added":False})
+
 
 
         
