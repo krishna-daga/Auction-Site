@@ -29,6 +29,8 @@ class Comments(models.Model):
 class Watchlist(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     item = models.ManyToManyField(Listings)
+    def __str__(self):
+        return 'Watchlist : {}'.format(self.item)
 class Winner(models.Model):
     owner=models.CharField(max_length=64)
     winner=models.CharField(max_length=64)
